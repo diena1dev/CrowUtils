@@ -3,18 +3,18 @@
   "id": "crowutils",
   "version": "${version}",
   "name": "CrowUtils",
-  "description": "",
-  "authors": [],
+  "description": "A Utility Mod for Minecraft 1.21.4",
+  "authors": ["diena1dev"],
   "contact": {},
   "license": "LGPL-3.0",
-  "icon": "assets/crowutils/icon.png",
+  "icon": "assets/crowutils/crowutils.png",
   "environment": "client",
   "entrypoints": {
     "client": [
-      "com.diena1dev.crowutils.client.CrowutilsClient"
+      "com.diena1dev.crowutils.client.CrowUtilsClient"
     ],
     "main": [
-      "com.diena1dev.crowutils.Crowutils"
+      "com.diena1dev.crowutils.CrowUtils"
     ]
   },
   "mixins": [

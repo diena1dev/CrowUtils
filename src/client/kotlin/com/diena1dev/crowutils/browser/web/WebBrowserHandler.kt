@@ -2,6 +2,7 @@ package com.diena1dev.crowutils.browser.web
 
 import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
+import org.cef.misc.CefCursorType
 
 @Suppress("unused")
 object WebBrowserHandler {
@@ -10,10 +11,10 @@ object WebBrowserHandler {
 
     fun init() {
         if (!MCEF.isInitialized()) {
-            weburl = "https://wiki.horizonsend.net"
+            weburl = "https://survival.horizonsend.net"
             MCEF.initialize()
             webBrowser = MCEF.createBrowser(weburl, true)
-        } else { println("[WARN] WebBrowser is not Initialized!") }
+        }
     }
 
     fun refreshBrowser() {

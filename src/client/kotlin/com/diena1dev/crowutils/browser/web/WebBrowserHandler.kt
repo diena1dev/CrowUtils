@@ -2,28 +2,40 @@ package com.diena1dev.crowutils.browser.web
 
 import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
-import org.cef.misc.CefCursorType
+import com.diena1dev.crowutils.config.Config
 
 @Suppress("unused")
 object WebBrowserHandler {
     lateinit var webBrowser: MCEFBrowser
-    lateinit var weburl: String
 
     fun init() {
         if (!MCEF.isInitialized()) {
-            weburl = "https://survival.horizonsend.net"
+            MCEF.shutdown()
             MCEF.initialize()
-            webBrowser = MCEF.createBrowser(weburl, true)
+            webBrowser = MCEF.createBrowser(Config().webHomePage, true)
+        } else if (!this::webBrowser.isInitialized && MCEF.isInitialized()) {
+            webBrowser = MCEF.createBrowser(Config().webHomePage, true)
         }
     }
 
     fun refreshBrowser() {
-        //if (webBrowser != null) { webBrowser.reload() }
-        webBrowser.reload()
+        if (this::webBrowser.isInitialized) { webBrowser.reload() }
     }
 
     fun resizeBrowser(x: Int, y: Int) {
-        if (webBrowser != null) { webBrowser.resize(x, y) }
+        if (this::webBrowser.isInitialized) { webBrowser.resize(x, y) }
+    }
+
+    fun isBrowserInit(): Boolean {
+        var result: Boolean
+
+        if (this::webBrowser.isInitialized) {
+            result = true
+        } else {
+            result = false
+        }
+
+        return result
     }
 }
 

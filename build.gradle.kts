@@ -42,15 +42,13 @@ repositories {
     // for more information about repositories.
 
     // MCEF Functions
-    maven {
+    maven("https://mcef-download.cinemamod.com/repositories/releases") {
         name = "MCEF"
-        url = uri("https://mcef-download.cinemamod.com/repositories/releases")
     }
 
     // Fabric
-    maven {
+    maven("https://maven.fabricmc.net/") {
         name = "Fabric"
-        url = uri("https://maven.fabricmc.net/")
     }
 }
 

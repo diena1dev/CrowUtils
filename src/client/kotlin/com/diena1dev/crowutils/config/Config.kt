@@ -9,11 +9,13 @@ class Config() {
     val openSettings = GLFW.GLFW_KEY_V // Debug Menu for now....
 
     // Default Browser Settings
-    var weburl = "https://google.com"
+    var webHomePage = "https://survival.horizonsend.net"
     var webTransparency = true
     var webLayer: Float = 1f
     var webOffsetHorizontal = 1
     var webOffsetVertical = 1
+
+    var webHUDEnabled = false
     var webHUDMapScale = 1
     var webHUDHorizontal = 1
     var webHUDVertical = 1

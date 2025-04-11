@@ -1,5 +1,6 @@
 package com.diena1dev.crowutils.client
 
+import com.diena1dev.crowutils.browser.web.WebBrowserHandler
 import com.diena1dev.crowutils.config.Config
 import com.diena1dev.crowutils.menus.MenuHandler
 import net.fabricmc.api.ClientModInitializer
@@ -24,8 +25,10 @@ object KeybindHandler: ClientModInitializer {
 
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick { client ->
             while (openUtilMenu.wasPressed()) {
-                gameInstance.setScreen(MenuHandler())
-                System.out.println("SAW PRESS")
+                if (WebBrowserHandler.isBrowserInit()) {
+                    gameInstance.setScreen(MenuHandler())
+                } else WebBrowserHandler.init()
+                    gameInstance.setScreen(MenuHandler())
             }
         })
     }

@@ -16,6 +16,6 @@ val gameInstance: MinecraftClient = MinecraftClient.getInstance()
 class CrowUtilsClient : ClientModInitializer {
     override fun onInitializeClient() {
         KeybindHandler.init()
-        WebBrowserHandler.init()
+        //WebBrowserHandler.init()
     }
 }

@@ -3,11 +3,9 @@ package com.diena1dev.crowutils.menus
 import com.cinemamod.mcef.MCEF
 import com.diena1dev.crowutils.browser.web.WebBrowserHandler
 import com.diena1dev.crowutils.browser.web.WebBrowserHandler.webBrowser
-import com.diena1dev.crowutils.browser.web.WebBrowserHandler.weburl
 import com.diena1dev.crowutils.client.gameInstance
 import com.diena1dev.crowutils.config.Config
 import com.mojang.blaze3d.systems.RenderSystem
-import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gl.ShaderProgramKeys
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -22,7 +20,7 @@ import net.minecraft.text.Text
 import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
-class MenuHandler: Screen(Text.literal("DEBUG")) {
+class   MenuHandler: Screen(Text.literal("DEBUG")) {
 
     val logger = LogManager.getLogger()
     var horizontalOffset = 20
@@ -31,58 +29,64 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
 
     override fun init() {
         super.init()
-        System.out.println("init from menuhandler called")
-        weburl = "https://google.com"
-        WebBrowserHandler.init()
-        if (MCEF.isInitialized()) {
-            //webBrowser.resize(width*gameInstance.window.scaledWidth, height*gameInstance.window.scaledHeight)
-            //webBrowser.resize(((gameInstance.window.width*2)*gameInstance.window.scaledWidth), ((gameInstance.window.height*2)*gameInstance.window.scaledHeight))
-            //webBrowser.resize(((width-horizontalOffset)*gameInstance.window.scaleFactor.toInt()), ((height-verticalOffset)*gameInstance.window.scaleFactor.toInt()))
-            webBrowser.resize(gameInstance.window.width*4, gameInstance.window.height*4)
+        if (MCEF.isInitialized() && WebBrowserHandler.isBrowserInit()) {
+            webBrowser.resize(width*gameInstance.window.scaleFactor.toInt(), height*gameInstance.window.scaleFactor.toInt())
+            System.out.println(
+                "'width': $width 'height': $height 'gameInstance.width': ${gameInstance.window.width}" +
+                        "'gameInstance.height': ${gameInstance.window.height} gameInstance.scaledWidth: '${gameInstance.window.scaledWidth}' gameInstance.scaledHeight: '${gameInstance.window.scaledHeight}'" +
+                        "gameInstance.scaleFactor: '${gameInstance.window.scaleFactor}'"
+            )
         }
 
-        //val buttonWidget: ButtonWidget.Builder? = ButtonWidget.builder(Text.literal("Hello World")) { WebBrowserHandler.refreshBrowser() }
         //val webBrowserBar = CustomWidget(gameInstance.window.width/2, verticalOffset+2, 3, 1) // pos - x, y | button - x, y
         //val webRefreshButton = CustomWidget((gameInstance.window.width/2)-7, verticalOffset+2, 1, 1)
         //this.addDrawableChild(webBrowserBar)
         //this.addDrawableChild(webRefreshButton)
+
+        // make custom function in RenderHandler for this ^
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
         RenderHandler().drawBrowserSearchBar(context, textRenderer, mouseX, mouseY)
-        context.fill(0, 0, gameInstance.window.width, gameInstance.window.height, -1, Config().backgroundPrimary.toInt())
+        context.fill(0, 0, width, height, -1, Config().backgroundPrimary.toInt())
         super.render(context, mouseX, mouseY, delta)
 
-        if (MCEF.isInitialized()) {
-            RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
-            RenderSystem.setShaderTexture(0, webBrowser.renderer.textureID)
+        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
+        RenderSystem.setShaderTexture(0, webBrowser.renderer.textureID)
 
-            val t = Tessellator.getInstance()
-            val buffer = t.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
+        val t = Tessellator.getInstance()
+        val buffer = t.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
 
-            // Width is from the LEFT to the RIGHT, while Height is from the TOP to the BOTTOM
+        // Width is from the LEFT to the RIGHT, while Height is from the TOP to the BOTTOM
 
-            buffer.vertex(
-             0f, gameInstance.window.height.toFloat(), Config().webLayer
-            ).texture(0.0f, 1.0f).color(255, 255, 255, 255) // Bottom Left
+        // when adding values to offsets and position, mirror those added values to the browser.resize() and mouseScale()
+        // TO ENSURE CONSISTENT RESULTS!
 
-            buffer.vertex(
-                gameInstance.window.width.toFloat(), gameInstance.window.height.toFloat(), Config().webLayer
-            ).texture(1.0f, 1.0f).color(255, 255, 255, 255) // Bottom Right
+        // "gameInstance.height" and "gameInstance.width" are both reading the actual window size.
+        // meanwhile, "width" and "height" measure the SCALED resolution for screens and GUIs.
+        // "gameInstance.scaleFactor" is what gameInstance width/height is divided by to get the *scaled* resolution
+        // see: 1920px/4 = 480px, where 1920px is from gameInstance.width, 4 is from gameInstance.scaleFactor, and 480 from width (already scaled width from the screen.)
 
-            buffer.vertex(
-                gameInstance.window.width.toFloat(), 0f, Config().webLayer
-            ).texture(1.0f, 0.0f).color(255, 255, 255, 255) // Top Right
+        buffer.vertex(
+            0f, height.toFloat(), Config().webLayer
+        ).texture(0.0f, 1.0f).color(255, 255, 255, 255) // Bottom Left
 
-            buffer.vertex(
-                0f, 0f, Config().webLayer
-            ).texture(0.0f, 0.0f).color(255, 255, 255, 255) // Top Left
+        buffer.vertex(
+            width.toFloat(), height.toFloat(), Config().webLayer
+        ).texture(1.0f, 1.0f).color(255, 255, 255, 255) // Bottom Right
 
-            BufferRenderer.drawWithGlobalProgram(buffer.end())
-        } else { return }
+        buffer.vertex(
+            width.toFloat(), 0f, Config().webLayer
+        ).texture(1.0f, 0.0f).color(255, 255, 255, 255) // Top Right
+
+        buffer.vertex(
+            0f, 0f, Config().webLayer
+        ).texture(0.0f, 0.0f).color(255, 255, 255, 255) // Top Left
+
+        BufferRenderer.drawWithGlobalProgram(buffer.end())
     }
 
-    fun mouseScaleX(x: Double): Int { return (((x-(horizontalOffset/2)-2)*gameInstance.window.scaleFactor).toInt()) }
+    fun mouseScaleX(x: Double): Int { return (((x/*(horizontalOffset/2))*/*gameInstance.window.scaleFactor).toInt())) }
     fun mouseScaleY(y: Double): Int { return ((y)*gameInstance.window.scaleFactor).toInt() }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {

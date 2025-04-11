@@ -1,5 +1,6 @@
 package com.diena1dev.crowutils.client
 
+import com.diena1dev.crowutils.config.Config
 import com.diena1dev.crowutils.menus.MenuHandler
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
@@ -16,9 +17,9 @@ object KeybindHandler: ClientModInitializer {
     val logger = LogManager.getLogger()
 
     fun init() {
-        val openUtilMenu = KeyBindingHelper.registerKeyBinding(KeyBinding("Open Menu (WIP)", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_V, "CrowUtils"))
+        val openUtilMenu = KeyBindingHelper.registerKeyBinding(KeyBinding("Open Menu (WIP)", InputUtil.Type.KEYSYM, Config().openMenu, "CrowUtils"))
         // Open Utility Menu
-        val debugWebBrowserMenu = KeyBindingHelper.registerKeyBinding(KeyBinding("Open Web Browser (Debug)", InputUtil.Type.KEYSYM, GLFW.GLFW_KEY_Z, "CrowUtils"))
+        val debugWebBrowserMenu = KeyBindingHelper.registerKeyBinding(KeyBinding("Open Web Browser (Debug)", InputUtil.Type.KEYSYM, Config().openSettings, "CrowUtils"))
         // Open Web Browser Debug Menu
 
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick { client ->

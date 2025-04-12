@@ -20,12 +20,9 @@ import net.minecraft.text.Text
 import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
-class   MenuHandler: Screen(Text.literal("DEBUG")) {
+class MenuHandler: Screen(Text.literal("DEBUG")) {
 
     val logger = LogManager.getLogger()
-    var horizontalOffset = 20
-    var verticalOffset = 30
-
 
     override fun init() {
         super.init()
@@ -38,16 +35,14 @@ class   MenuHandler: Screen(Text.literal("DEBUG")) {
             )
         }
 
-        //val webBrowserBar = CustomWidget(gameInstance.window.width/2, verticalOffset+2, 3, 1) // pos - x, y | button - x, y
-        //val webRefreshButton = CustomWidget((gameInstance.window.width/2)-7, verticalOffset+2, 1, 1)
-        //this.addDrawableChild(webBrowserBar)
-        //this.addDrawableChild(webRefreshButton)
+        val webRefreshButton = CustomWidget((width/2), Config().webOffsetVertical+2, 10, 10) // position then button size is defined.
+        //RenderHandler.RenderBrowserSearchBar(1, 1, 2, 3)
+        this.addDrawableChild(webRefreshButton)
 
         // make custom function in RenderHandler for this ^
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        RenderHandler().drawBrowserSearchBar(context, textRenderer, mouseX, mouseY)
         context.fill(0, 0, width, height, -1, Config().backgroundPrimary.toInt())
         super.render(context, mouseX, mouseY, delta)
 

@@ -11,19 +11,42 @@ import net.minecraft.client.gui.DrawContext
 
 
 @Suppress("unused")
-class RenderHandler() {
-    fun drawBrowserSearchBar(
-        context: DrawContext,
-        textRenderer: TextRenderer,
-        mouseX: Int, mouseY: Int,
-    ) {
-        val buttonSizeX = 10
-        val buttonSizeY = 8
-
-        var pos1 = 10
-        var pos2 = 10
-
-        context.fill(pos1, pos2, buttonSizeX, buttonSizeY, 0, Config().buttonSecondary.toInt())
-        context.drawText(textRenderer, "TEST", pos1, pos2, Config().primaryText.toInt(), true)
+object RenderHandler {
+    class RenderBrowserSearchBar(posX: Int, posY: Int, elementWidth: Int, elementHeight: Int) {
+        fun drawBrowserSearchBar(
+            context: DrawContext,
+            textRenderer: TextRenderer,
+            mouseX: Int, mouseY: Int,
+            posX: Int, posY: Int,
+            buttonSizeX:Int, buttonSizeY:Int
+        ) {
+            context.fill(posX, posY, buttonSizeX, buttonSizeY, 0, Config().buttonSecondary.toInt())
+            context.drawText(textRenderer, "TEST", posX, posY, Config().primaryText.toInt(), true)
+        }
     }
+
+    class RenderClickableButton(posX: Int, posY: Int, elementWidth: Int, elementHeight: Int) {
+        fun drawClickableButton() {}
+    }
+
+
+    /*
+     class CustomWidget(x: Int, y: Int, width: Int, height: Int) : ClickableWidget(x, y, width, height, Text.empty()) {
+
+        override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
+            var color = Config().buttonPrimary
+
+            if (isHovered()) {
+                color = Config().buttonHighlighted
+            }
+
+            context.fill(x, y, width, height, color.toInt())
+        }
+
+        override fun appendClickableNarrations(builder: NarrationMessageBuilder) {
+            // For brevity, we'll just skip this for now - if you want to add narration to your widget, you can do so here.
+            return
+        }
+    }
+     */
 }

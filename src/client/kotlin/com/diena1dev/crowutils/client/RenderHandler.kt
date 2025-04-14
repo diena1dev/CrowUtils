@@ -19,18 +19,52 @@ import net.minecraft.client.render.VertexFormats
 
 @Suppress("unused")
 object RenderHandler {
-    fun drawBrowser(browser: MCEFBrowser, height: Float, width: Float) {
-        RenderSystem.disableDepthTest()
-        RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
-        RenderSystem.setShaderTexture(0, browser.renderer.textureID)
-        val tessellator = Tessellator.getInstance()
-        val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
-        bufferBuilder.vertex(0f, height, 0f).texture(0f, 1f).color(255, 255, 255, 255)
-        bufferBuilder.vertex(width, height, 0f).texture(1f, 1f).color(255, 255, 255, 255)
-        bufferBuilder.vertex(width, 0f, 0f).texture(1f, 0f).color(255, 255, 255, 255)
-        bufferBuilder.vertex(0f, 0f, 0f).texture(0f, 0f).color(255, 255, 255, 255)
-        BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
-        RenderSystem.enableDepthTest()
+    fun drawBrowser(browser: MCEFBrowser, width: Int, height: Int, widthOffset: Int, heightOffset: Int, isFullscreen: Boolean) {
+        if (!isFullscreen) {
+            RenderSystem.disableDepthTest()
+            RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
+            RenderSystem.setShaderTexture(0, browser.renderer.textureID)
+            val tessellator = Tessellator.getInstance()
+            val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
+            bufferBuilder.vertex(0f, height.toFloat(), 0f).texture(0f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(width.toFloat(), height.toFloat(), 0f).texture(1f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(width.toFloat(), 0f, 0f).texture(1f, 0f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(0f, 0f, 0f).texture(0f, 0f).color(255, 255, 255, 255)
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+            RenderSystem.enableDepthTest()
+        } else {
+            RenderSystem.disableDepthTest()
+            RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
+            RenderSystem.setShaderTexture(0, browser.renderer.textureID)
+            val tessellator = Tessellator.getInstance()
+            val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
+            bufferBuilder.vertex(0f + widthOffset, height.toFloat() - heightOffset, 0f).texture(0f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(width.toFloat() - widthOffset, height.toFloat() - heightOffset, 0f).texture(1f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(width.toFloat() - widthOffset, 0f + heightOffset, 0f).texture(1f, 0f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(0f + widthOffset, 0f + heightOffset, 0f).texture(0f, 0f).color(255, 255, 255, 255)
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+            RenderSystem.enableDepthTest()
+        }
+    }
+
+    fun drawHUDBrowser(browser: MCEFBrowser, size: Int, isEnabled: Boolean) {
+        //if (isEnabled) {
+            RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
+            RenderSystem.setShaderTexture(0, browser.renderer.textureID)
+            val tessellator = Tessellator.getInstance()
+            val bufferBuilder = tessellator.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
+            bufferBuilder.vertex(0f, size.toFloat(), 0f).texture(0f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(size.toFloat(), size.toFloat(), 0f).texture(1f, 1f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(size.toFloat(), 0f, 0f).texture(1f, 0f).color(255, 255, 255, 255)
+            bufferBuilder.vertex(0f, 0f, 0f).texture(0f, 0f).color(255, 255, 255, 255)
+            BufferRenderer.drawWithGlobalProgram(bufferBuilder.end())
+        //} else {
+        //    return
+        //}
+    }
+
+    fun resizeBrowser(browser: MCEFBrowser, width: Int, height: Int, widthOffset: Int, heightOffset: Int) {
+        browser.resize(width*gameInstance.window.scaleFactor.toInt() - widthOffset*2, height*gameInstance.window.scaleFactor.toInt() - heightOffset*2)
     }
 
     class RenderBrowserSearchBar(posX: Int, posY: Int, elementWidth: Int, elementHeight: Int) {

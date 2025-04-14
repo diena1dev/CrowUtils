@@ -7,6 +7,9 @@ class Config() {
     // Default Keybinds
     val openMenu = GLFW.GLFW_KEY_X
     val openSettings = GLFW.GLFW_KEY_V // Debug Menu for now....
+    val toggleHUD = GLFW.GLFW_KEY_H
+
+    var isHUDToggled = false
 
     // Default Browser Settings
     var webHomePage = "https://survival.horizonsend.net"

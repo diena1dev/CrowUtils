@@ -1,4 +1,4 @@
-package com.diena1dev.crowutils.browser.web
+package com.diena1dev.crowutils.browser
 
 import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
@@ -38,4 +38,3 @@ object WebBrowserHandler {
         return result
     }
 }
-

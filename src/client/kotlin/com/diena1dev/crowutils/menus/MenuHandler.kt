@@ -1,8 +1,8 @@
 package com.diena1dev.crowutils.menus
 
 import com.cinemamod.mcef.MCEF
-import com.diena1dev.crowutils.browser.web.WebBrowserHandler
-import com.diena1dev.crowutils.browser.web.WebBrowserHandler.webBrowser
+import com.diena1dev.crowutils.browser.WebBrowserHandler
+import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
 import com.diena1dev.crowutils.client.gameInstance
 import com.diena1dev.crowutils.config.Config
 import com.mojang.blaze3d.systems.RenderSystem

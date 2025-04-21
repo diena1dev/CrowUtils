@@ -35,7 +35,7 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
             )
         }
 
-        val webRefreshButton = CustomWidget((width/2), Config().webOffsetVertical+2, 10, 10) // position then button size is defined.
+        val webRefreshButton = CustomWidget((width/2), Config.webOffsetVertical+2, 10, 10) // position then button size is defined.
         //RenderHandler.RenderBrowserSearchBar(1, 1, 2, 3)
         this.addDrawableChild(webRefreshButton)
 
@@ -43,7 +43,7 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-        context.fill(0, 0, width, height, -1, Config().backgroundPrimary.toInt())
+        context.fill(0, 0, width, height, -1, Config.backgroundPrimary.toInt())
         super.render(context, mouseX, mouseY, delta)
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
@@ -63,19 +63,19 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
         // see: 1920px/4 = 480px, where 1920px is from gameInstance.width, 4 is from gameInstance.scaleFactor, and 480 from width (already scaled width from the screen.)
 
         buffer.vertex(
-            0f, height.toFloat(), Config().webLayer
+            0f, height.toFloat(), Config.webLayer
         ).texture(0.0f, 1.0f).color(255, 255, 255, 255) // Bottom Left
 
         buffer.vertex(
-            width.toFloat(), height.toFloat(), Config().webLayer
+            width.toFloat(), height.toFloat(), Config.webLayer
         ).texture(1.0f, 1.0f).color(255, 255, 255, 255) // Bottom Right
 
         buffer.vertex(
-            width.toFloat(), 0f, Config().webLayer
+            width.toFloat(), 0f, Config.webLayer
         ).texture(1.0f, 0.0f).color(255, 255, 255, 255) // Top Right
 
         buffer.vertex(
-            0f, 0f, Config().webLayer
+            0f, 0f, Config.webLayer
         ).texture(0.0f, 0.0f).color(255, 255, 255, 255) // Top Left
 
         BufferRenderer.drawWithGlobalProgram(buffer.end())
@@ -107,10 +107,10 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
     class CustomWidget(x: Int, y: Int, width: Int, height: Int) : ClickableWidget(x, y, width, height, Text.empty()) {
 
         override fun renderWidget(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
-            var color = Config().buttonPrimary
+            var color = Config.buttonPrimary
 
             if (isHovered()) {
-                color = Config().buttonHighlighted
+                color = Config.buttonHighlighted
             }
 
             context.fill(x, y, width, height, color.toInt())

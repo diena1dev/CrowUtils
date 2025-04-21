@@ -3,25 +3,30 @@ package com.diena1dev.crowutils.config
 import org.lwjgl.glfw.GLFW
 
 @Suppress("unused")
-class Config() {
+object Config {
     // Default Keybinds
-    val openMenu = GLFW.GLFW_KEY_X
-    val openSettings = GLFW.GLFW_KEY_V // Debug Menu for now....
+    val openMenu = GLFW.GLFW_KEY_V
+    val openSettings = GLFW.GLFW_KEY_X // Debug Menu for now....
     val toggleHUD = GLFW.GLFW_KEY_H
+    val zoomHUD = GLFW.GLFW_KEY_Z
+    val reloadBrowser = GLFW.GLFW_KEY_BACKSLASH
 
-    var isHUDToggled = false
+    var isHUDToggled = true
+    var isFullscreen = true
 
     // Default Browser Settings
     var webHomePage = "https://survival.horizonsend.net"
     var webTransparency = true
     var webLayer: Float = 1f
-    var webOffsetHorizontal = 1
-    var webOffsetVertical = 1
+    var webOffsetHorizontal = 5
+    var webOffsetVertical = 5
 
     var webHUDEnabled = false
-    var webHUDMapScale = 1
-    var webHUDHorizontal = 1
-    var webHUDVertical = 1
+    var webHUDZoomed = false
+    var webHUDSize = 40
+    var webHUDMapScale = 2
+    var webHUDHorizontal = 30
+    var webHUDVertical = 30
 
     // Default Colors
     val backgroundPrimary = 0xFF2C2C2C

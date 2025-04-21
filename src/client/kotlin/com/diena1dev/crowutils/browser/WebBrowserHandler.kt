@@ -12,9 +12,9 @@ object WebBrowserHandler {
         if (!MCEF.isInitialized()) {
             MCEF.shutdown()
             MCEF.initialize()
-            webBrowser = MCEF.createBrowser(Config().webHomePage, true)
+            webBrowser = MCEF.createBrowser(Config.webHomePage, true)
         } else if (!this::webBrowser.isInitialized && MCEF.isInitialized()) {
-            webBrowser = MCEF.createBrowser(Config().webHomePage, true)
+            webBrowser = MCEF.createBrowser(Config.webHomePage, true)
         }
     }
 

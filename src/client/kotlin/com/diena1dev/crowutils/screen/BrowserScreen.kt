@@ -34,7 +34,7 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
 
     override fun close() {
         super.close() // Super calls the NOT overrided function, very helpful here!
-        webBrowser.resize(Config.webHUDSize*(gameInstance.window.scaleFactor.toInt()*6)*2, Config.webHUDSize*(gameInstance.window.scaleFactor*6).toInt())
+        webBrowser.resize(((Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {

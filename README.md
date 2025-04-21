@@ -12,8 +12,10 @@ and provide a backup for me.
 ### = Installing =
 
 CrowUtils depends on any version of the Fabric Loader equal to or greater than 0.16.12,
-along with the mod [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) and
+along with the mods [Fabric API](https://modrinth.com/mod/fabric-api/), [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin), and
 [MCEF](https://modrinth.com/mod/mcef/), and is written specifically for **1.21.4**.
+
+If you have all dependencies and the mod is still not working, update everything to its latest version.
 
 Drag and drop the mod .jar from [Releases](https://github.com/diena1dev/CrowUtils/releases),
 ensuring all dependencies are met.

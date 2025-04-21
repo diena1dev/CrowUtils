@@ -9,6 +9,17 @@ CrowUtils is in very early development right now.
 This Repository exists to give me an easy way to access this project from multiple systems,
 and provide a backup for me.
 
+### = Installing =
+
+CrowUtils depends on any version of the Fabric Loader equal to or greater than 0.16.12,
+along with the mod [Fabric Language Kotlin](https://modrinth.com/mod/fabric-language-kotlin) and
+[MCEF](https://modrinth.com/mod/mcef/), and is written specifically for **1.21.4**.
+
+Drag and drop the mod .jar from [Releases](https://github.com/diena1dev/CrowUtils/releases),
+ensuring all dependencies are met.
+
+Check the Minecraft "Controls" in Settings for default keybindings.
+
 ### = Development Timeline =
 
 #### General Use:
@@ -28,3 +39,9 @@ isolate the coordinate values, copy them to your clipboard, and paste them in ch
 
 IF planet position data can be grabbed with Kotlin- An algorithm that calculates
 the best path around gravity wells.
+
+A method to smooth the planet icon position updates, taking their previous and current position,
+then smoothly moving them from one position to another.
+
+A reimplementation of Void features, mainly status HUD elements and Astralchroma's Crate Placer,
+rewritten for modern versions of Minecraft.

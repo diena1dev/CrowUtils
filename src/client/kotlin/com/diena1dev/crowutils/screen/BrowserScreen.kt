@@ -1,9 +1,11 @@
 package com.diena1dev.crowutils.screen
 
 import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
+import com.diena1dev.crowutils.client.KeybindHandler
 import com.diena1dev.crowutils.client.RenderHandler
 import com.diena1dev.crowutils.client.gameInstance
 import com.diena1dev.crowutils.config.Config
+import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
@@ -33,12 +35,14 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
     }
 
     override fun close() {
+        // TODO: find why in the world the mouse cursor becomes not captive when exiting map.
+        this.mouseMoved(0.0,0.0)
         super.close() // Super calls the NOT overrided function, very helpful here!
-        webBrowser.resize(((Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
+        //webBrowser.resize(((Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {
-        if (chr.toString() == "v") {
+        if ("key.keyboard.$chr" == KeyBindingHelper.getBoundKeyOf(KeybindHandler.openUtilMenu).toString()) {
             close()
         }
         return super.charTyped(chr, modifiers)

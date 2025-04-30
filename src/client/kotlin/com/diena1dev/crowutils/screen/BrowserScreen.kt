@@ -36,9 +36,8 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
 
     override fun close() {
         // TODO: find why in the world the mouse cursor becomes not captive when exiting map.
-        this.mouseMoved(0.0,0.0)
+        webBrowser.resize(((c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
         super.close() // Super calls the NOT overrided function, very helpful here!
-        //webBrowser.resize(((Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
     }
 
     override fun charTyped(chr: Char, modifiers: Int): Boolean {

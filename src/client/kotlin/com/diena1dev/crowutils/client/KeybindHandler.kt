@@ -27,32 +27,39 @@ object KeybindHandler: ClientModInitializer {
 
     fun init() {
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick { client ->
-            while (openUtilMenu.wasPressed()) {
-                if (WebBrowserHandler.isBrowserInit()) {
-                    gameInstance.setScreen(BrowserScreen(gameInstance, Text.literal("DEBUG"), "https://google.com"))
-                } else
-                    WebBrowserHandler.init()
-                gameInstance.setScreen(BrowserScreen(gameInstance, Text.literal("DEBUG"), "https://google.com"))
+            if (gameInstance.isFinishedLoading && !c.worldLoadStatus) {
+                WebBrowserHandler.init()
+                c.worldLoadStatus = true
             }
 
-            /*while (zoomHUD.wasPressed()) {
+            if (openUtilMenu.wasPressed()) {
+                if (WebBrowserHandler.isBrowserInit()) {
+                    gameInstance.setScreen(BrowserScreen(gameInstance, Text.literal("DEBUG"), "https://google.com"))
+                    WebBrowserHandler.injectCSS()
+                } else {
+                    WebBrowserHandler.init()
+                    gameInstance.setScreen(BrowserScreen(gameInstance, Text.literal("DEBUG"), "https://google.com"))
+                }
+            }
+
+            while (zoomHUD.wasPressed()) {
                 c.webHUDZoomed = true
             }
             while (!zoomHUD.wasPressed() && c.webHUDZoomed) {
                 c.webHUDZoomed = false
-            }*/// TODO: Fix?
+            } // TODO: Fix?
 
-            if (reloadBrowser.wasPressed()) {
-                //webBrowser.reload()
-                WebBrowserHandler.injectCSS()
-            }
-
-            if (zoomHUD.wasPressed()) {
+            /*if (zoomHUD.wasPressed()) {
                 if (c.webHUDZoomed) {
                     c.webHUDZoomed = false
                 } else {
                     c.webHUDZoomed = true
                 }
+            }*/
+
+            if (reloadBrowser.wasPressed()) {
+                webBrowser.reload()
+                WebBrowserHandler.injectCSS()
             }
 
             if (toggleHUD.wasPressed()) {

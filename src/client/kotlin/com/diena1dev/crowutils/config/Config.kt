@@ -13,6 +13,8 @@ object Config {
 
     var isHUDToggled = true
     var isFullscreen = true
+    var worldLoadStatus = false
+    var hasInjectedCSS = false
 
     // Default Browser Settings
     var webHomePage = "https://survival.horizonsend.net"

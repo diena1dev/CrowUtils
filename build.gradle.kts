@@ -41,30 +41,28 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
 
-    // MCEF Functions
-    maven("https://mcef-download.cinemamod.com/repositories/releases") {
-        name = "MCEF"
+    maven { // MCEF Dependencies
+        url = uri("https://mcef-download.cinemamod.com/repositories/releases")
+    }
+    maven { // Fabric Maven
+        url = uri("https://maven.fabricmc.net/")
+    }
+    maven { // Maven
+        url = uri("https://modmaven.dev/")
     }
 
-    // Fabric
-    maven("https://maven.fabricmc.net/") {
-        name = "Fabric"
-    }
 }
 
 dependencies {
     // Minecraft Version, Yarn Mappings, Fabric Language Kotlin, and the Fabric Loader
-    minecraft("com.mojang:minecraft:${project.property("minecraft_version")}")
-    mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2")
-    modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}")
-    modImplementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}")
+    minecraft("com.mojang:minecraft:${project.property("minecraft_version")}") // Minecraft
+    mappings("net.fabricmc:yarn:${project.property("yarn_mappings")}:v2") // Yarn
+    modImplementation("com.cinemamod:mcef:2.1.6-1.21.4") // MCEF
+    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}") // Fabric API
+    modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}") // Fabric Loader
+    modImplementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}") // Fabric Language Kotlin
 
-    // Fabric-API
-    modImplementation("net.fabricmc.fabric-api:fabric-api:${project.property("fabric_version")}")
-
-    // MCEF Dependencies
-    modCompileOnly("com.cinemamod:mcef:2.1.6-1.21.4")
-    modRuntimeOnly("com.cinemamod:mcef-fabric:2.1.6-1.21.4")
+    modRuntimeOnly("com.cinemamod:mcef:2.1.6-1.21.4")
 }
 
 tasks.processResources {

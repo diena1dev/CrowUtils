@@ -2,6 +2,7 @@ package com.diena1dev.crowutils.browser
 
 import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
+import com.diena1dev.crowutils.client.RenderHandler
 import com.diena1dev.crowutils.client.gameInstance
 import com.diena1dev.crowutils.config.Config
 
@@ -17,11 +18,24 @@ object WebBrowserHandler {
     }
 
     fun refreshBrowser() {
-        if (this::webBrowser.isInitialized) { webBrowser.reload() }
-        webBrowser.resize(((Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (Config.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
+        if (this::webBrowser.isInitialized) {
+            c.hasInjectedCSS = false
+            webBrowser.reload()
+            println("refreshBrowser called, value ${c.hasInjectedCSS}")
+        }
     }
 
-    fun resizeBrowser(x: Int, y: Int) {
+    fun resizeBrowserAuto() { // resizes intelligently to match window resolution
+        if (this::webBrowser.isInitialized) {
+            webBrowser.resize(
+                gameInstance.window.width
+                ,
+                gameInstance.window.height
+            )
+            }
+    }
+
+    fun resizeBrowserPrecise(x: Int, y: Int) { // resizes with the **exact** given x and y
         if (this::webBrowser.isInitialized) { webBrowser.resize(x, y) }
     }
 
@@ -38,7 +52,8 @@ object WebBrowserHandler {
     }
 
     fun injectCSS() {
-        if (!c.hasInjectedCSS) {
+        println("injectCSS called, value ${c.hasInjectedCSS}")
+        if (!c.hasInjectedCSS && isBrowserInit()) {
             c.hasInjectedCSS = true
             webBrowser.executeJavaScript(
                 "const injectCSS = css => {" +

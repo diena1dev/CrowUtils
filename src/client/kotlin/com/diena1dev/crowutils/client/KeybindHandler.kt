@@ -19,7 +19,7 @@ object KeybindHandler: ClientModInitializer {
     val openUtilMenu: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("Open Browser Window (WIP)", InputUtil.Type.KEYSYM, c.openMenu, "CrowUtils"))
     // Open Utility/Browser Menu
     val reloadBrowser: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("Reload Browser", InputUtil.Type.KEYSYM, c.reloadBrowser, "CrowUtils"))
-    // Reload Browser - TODO: Replace with a GUI button, add safety to not crash on reload.
+    // Reload Browser - TODO: Replace with a GUI button
     val zoomHUD: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("Zoom HUD", InputUtil.Type.KEYSYM, c.zoomHUD, "CrowUtils"))
     // Open Web Browser Debug Menu
     val toggleHUD: KeyBinding = KeyBindingHelper.registerKeyBinding(KeyBinding("Toggle HUD", InputUtil.Type.KEYSYM, c.toggleHUD, "CrowUtils"))
@@ -39,27 +39,27 @@ object KeybindHandler: ClientModInitializer {
                 } else {
                     WebBrowserHandler.init()
                     gameInstance.setScreen(BrowserScreen(gameInstance, Text.literal("DEBUG"), "https://google.com"))
+                    WebBrowserHandler.injectCSS()
                 }
             }
 
-            while (zoomHUD.wasPressed()) {
+            /* while (zoomHUD.wasPressed()) {
                 c.webHUDZoomed = true
             }
             while (!zoomHUD.wasPressed() && c.webHUDZoomed) {
                 c.webHUDZoomed = false
-            } // TODO: Fix?
+            } */// TODO: Fix?
 
-            /*if (zoomHUD.wasPressed()) {
+            if (zoomHUD.wasPressed()) {
                 if (c.webHUDZoomed) {
                     c.webHUDZoomed = false
                 } else {
                     c.webHUDZoomed = true
                 }
-            }*/
+            }
 
             if (reloadBrowser.wasPressed()) {
-                webBrowser.reload()
-                WebBrowserHandler.injectCSS()
+                WebBrowserHandler.refreshBrowser()
             }
 
             if (toggleHUD.wasPressed()) {
@@ -67,6 +67,7 @@ object KeybindHandler: ClientModInitializer {
                     c.webHUDEnabled = false
                 } else if (!c.webHUDEnabled && WebBrowserHandler.isBrowserInit()) {
                     c.webHUDEnabled = true
+                    WebBrowserHandler.resizeBrowserPrecise(((c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
                 }
             }
         })

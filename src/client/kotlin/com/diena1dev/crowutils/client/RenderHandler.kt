@@ -86,10 +86,6 @@ object RenderHandler {
         }
     } // TODO: Make minimap rendering more consistent with the fullscreen map.
 
-    fun resizeBrowser(browser: MCEFBrowser, width: Int, height: Int, widthOffset: Int, heightOffset: Int) {
-        browser.resize(width*gameInstance.window.scaleFactor.toInt() - widthOffset*2, height*gameInstance.window.scaleFactor.toInt() - heightOffset*2)
-    }
-
     class RenderBrowserSearchBar(posX: Int, posY: Int, elementWidth: Int, elementHeight: Int) {
         fun drawBrowserSearchBar(
             context: DrawContext,

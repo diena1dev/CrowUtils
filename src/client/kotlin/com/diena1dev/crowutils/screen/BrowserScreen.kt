@@ -1,5 +1,6 @@
 package com.diena1dev.crowutils.screen
 
+import com.diena1dev.crowutils.browser.WebBrowserHandler
 import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
 import com.diena1dev.crowutils.client.KeybindHandler
 import com.diena1dev.crowutils.client.RenderHandler
@@ -23,7 +24,8 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
 
     override fun init() {
         super.init()
-        RenderHandler.resizeBrowser(webBrowser, width, height, c.webOffsetHorizontal, c.webOffsetVertical)
+        //RenderHandler.resizeBrowser(webBrowser, width, height, c.webOffsetHorizontal, c.webOffsetVertical)
+        WebBrowserHandler.resizeBrowserAuto()
     }
 
     override fun render(context: DrawContext, mouseX: Int, mouseY: Int, delta: Float) {
@@ -70,5 +72,10 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
     ): Boolean {
         webBrowser.sendMouseWheel(mouseScaleX(mouseX), mouseScaleY(mouseY), verticalAmount, 0)
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
+    }
+
+    override fun resize(client: MinecraftClient?, width: Int, height: Int) {
+        WebBrowserHandler.resizeBrowserAuto()
+        super.resize(client, width, height)
     }
 }

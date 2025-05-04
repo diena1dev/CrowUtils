@@ -67,7 +67,7 @@ object KeybindHandler: ClientModInitializer {
                     c.webHUDEnabled = false
                 } else if (!c.webHUDEnabled && WebBrowserHandler.isBrowserInit()) {
                     c.webHUDEnabled = true
-                    WebBrowserHandler.resizeBrowserPrecise(((c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
+                    //WebBrowserHandler.resizeBrowserPrecise(((c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())*2, (c.webHUDSize*6.5*gameInstance.window.scaleFactor).toInt())
                 }
             }
         })

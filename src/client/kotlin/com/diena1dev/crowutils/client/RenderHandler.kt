@@ -135,7 +135,8 @@ object RenderHandler {
         ) {
             var c = Config
             if (c.webHUDEnabled) {
-                RenderHandler.drawHUDBrowser(webBrowser, c.webHUDSize, c.webHUDEnabled, c.webHUDZoomed)
+                drawBrowser(webBrowser, gameInstance.window.width, gameInstance.window.height, 0, 0, true)
+                drawHUDBrowser(webBrowser, c.webHUDSize, c.webHUDEnabled, c.webHUDZoomed)
             }
             if (c.webHUDEnabled && c.webHUDZoomed) {
                 context.fill(0, 0, c.webHUDSize*gameInstance.window.scaleFactor.toInt()*2, c.webHUDSize*gameInstance.window.scaleFactor.toInt()*2, 111111111)

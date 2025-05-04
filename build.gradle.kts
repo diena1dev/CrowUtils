@@ -41,15 +41,12 @@ repositories {
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
 
-    maven { // MCEF Dependencies
-        url = uri("https://mcef-download.cinemamod.com/repositories/releases")
+    maven("https://mcef-download.cinemamod.com/repositories/releases") { // MCEF Dependencies
+        name = "MCEF"
     }
-    maven { // Fabric Maven
-        url = uri("https://maven.fabricmc.net/")
-    }
-    maven { // Maven
-        url = uri("https://modmaven.dev/")
-    }
+    maven("https://maven.fabricmc.net/") // Fabric Maven
+    maven("https://modmaven.dev/") // Maven
+
 
 }
 
@@ -62,7 +59,8 @@ dependencies {
     modImplementation("net.fabricmc:fabric-loader:${project.property("loader_version")}") // Fabric Loader
     modImplementation("net.fabricmc:fabric-language-kotlin:${project.property("kotlin_loader_version")}") // Fabric Language Kotlin
 
-    modRuntimeOnly("com.cinemamod:mcef:2.1.6-1.21.4")
+    modCompileOnly("com.cinemamod:mcef:2.1.6-1.21.4")
+    modRuntimeOnly("com.cinemamod:mcef-fabric:2.1.6-1.21.4")
 }
 
 tasks.processResources {

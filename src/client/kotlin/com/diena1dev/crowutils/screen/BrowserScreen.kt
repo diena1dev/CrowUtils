@@ -56,6 +56,9 @@ class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: St
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
         webBrowser.sendMousePress(mouseScaleX(mouseX), mouseScaleY(mouseY), button)
+        if (button == 1) {
+            WebBrowserHandler.onJumpClick()
+        }
         return super.mouseClicked(mouseX, mouseY, button)
     }
 

@@ -51,7 +51,23 @@ object WebBrowserHandler {
         return result
     }
 
-    fun injectCSS() {
+    fun onJumpClick() {
+        webBrowser.executeJavaScript("console.log(document.querySelector(\".coord-control-value\").textContent + \" logPointer\");",
+            c.webHomePage, 500)
+        val process = ProcessBuilder("tail", "-f", "../logs/latest.log").start()
+        process.inputStream.bufferedReader().useLines { lines ->
+            lines.forEach { line ->
+                if (line.contains("logPointer")) {
+                    val coords = line.substringAfter("RightClickEvent: ").split(" ")
+                    val x = coords[0].substringAfter("X=")
+                    val y = coords[1].substringAfter("Y=")
+                    println("Extracted Coordinates: X=$x, Y=$y")
+                }
+            }
+        }
+
+
+        fun injectCSS() {
         println("injectCSS called, value ${c.hasInjectedCSS}")
         if (!c.hasInjectedCSS && isBrowserInit()) {
             c.hasInjectedCSS = true
@@ -118,4 +134,69 @@ object WebBrowserHandler {
             )
         }
     }
-}
+}}
+
+/**
+ * <!DOCTYPE html>
+ * <html lang="en">
+ * <head>
+ *     <meta charset="UTF-8">
+ *     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ *     <title>Right Click Copy Button</title>
+ *     <style>
+ *         body {
+ *             font-family: Arial, sans-serif;
+ *         }
+ *         #copyButton {
+ *             position: absolute;
+ *             display: none;
+ *             background-color: #007bff;
+ *             color: white;
+ *             border: none;
+ *             padding: 5px 10px;
+ *             cursor: pointer;
+ *             border-radius: 5px;
+ *         }
+ *         #targetText {
+ *             margin-top: 50px;
+ *             padding: 10px;
+ *             border: 1px solid #ccc;
+ *         }
+ *     </style>
+ * </head>
+ * <body>
+ *     <p id="targetText">This is the text to copy!</p>
+ *     <button id="copyButton">Copy</button>
+ *
+ *     <script>
+ *         document.addEventListener("contextmenu", function(event) {
+ *             event.preventDefault(); // Prevent default context menu
+ *
+ *             let button = document.getElementById("copyButton");
+ *             button.style.left = event.pageX + "px";
+ *             button.style.top = event.pageY + "px";
+ *             button.style.display = "block";
+ *         });
+ *
+ *         document.getElementById("copyButton").addEventListener("click", function() {
+ *             let text = document.getElementById("targetText").textContent;
+ *             navigator.clipboard.writeText(text).then(() => {
+ *                 alert("Text copied to clipboard!");
+ *             }).catch(err => {
+ *                 console.error("Failed to copy text: ", err);
+ *             });
+ *
+ *             this.style.display = "none"; // Hide button after copying
+ *         });
+ *
+ *         // Hide button on click anywhere else
+ *         document.addEventListener("click", function(event) {
+ *             let button = document.getElementById("copyButton");
+ *             if (event.target !== button) {
+ *                 button.style.display = "none";
+ *             }
+ *         });
+ *     </script>
+ * </body>
+ * </html>
+  */

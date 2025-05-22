@@ -56,6 +56,7 @@ object KeybindHandler: ClientModInitializer {
                 } else {
                     c.webHUDZoomed = true
                 }
+                WebBrowserHandler.injectCSS() // TODO: REMOVE LATER
             }
 
             if (reloadBrowser.wasPressed()) {

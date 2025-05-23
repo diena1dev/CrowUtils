@@ -7,8 +7,12 @@ import com.diena1dev.crowutils.config.Config
 import org.apache.logging.log4j.LogManager
 import org.cef.CefSettings
 import org.cef.browser.CefBrowser
+import org.cef.callback.CefJSDialogCallback
 import org.cef.handler.CefDisplayHandler
 import org.cef.handler.CefDisplayHandlerAdapter
+import org.cef.handler.CefJSDialogHandler
+import org.cef.handler.CefJSDialogHandlerAdapter
+import org.cef.misc.BoolRef
 
 // TODO: On every JECF log message sent, check for logPointer, and if present, forward string to an internal var, for use in inserting into chat.
 
@@ -145,6 +149,50 @@ object WebBrowserHandler {
     var lastConsoleMessage: String? = null
 
     fun onJumpClick() {
-        webBrowser.executeJavaScript("console.error(document.querySelector(\".coord-control-value\").textContent + \" logPointer\");", webBrowser.url, 100)
+        webBrowser.executeJavaScript("(function() {" +
+                "  const levels = ['log', 'warn', 'error', 'info', 'debug'];" +
+                "  levels.forEach(function(level) {" +
+                "    const original = console[level];" +
+                "    console[level] = function(...args) {" +
+                "      original.apply(console, args);" +
+                "      try {" +
+                "        window.mcefQuery({" +
+                "          request: 'console:' + level + ':' + args.map(a => " +
+                "            (typeof a === 'object' ? JSON.stringify(a) : String(a))" +
+                "          ).join(' ')," +
+                "          persistent: false," +
+                "          onSuccess: function() {}," +
+                "          onFailure: function() {}" +
+                "        });" +
+                "      } catch (e) {}" +
+                "    };" +
+                "  });" +
+                "})();", webBrowser.url, 0)
+        webBrowser.executeJavaScript("console.log(document.querySelector(\".coord-control-value\").textContent + \" logPointer\");", webBrowser.url, 100)
+        webBrowser.executeJavaScript(
+            """
+    (function() {
+      const levels = ['log', 'warn', 'error', 'info', 'debug'];
+      levels.forEach(function(level) {
+        const original = console[level];
+        console[level] = function(...args) {
+          original.apply(console, args);
+          try {
+            window.mcefQuery({
+              request: 'console:' + level + ':' + args.map(a => 
+                (typeof a === 'object' ? JSON.stringify(a) : String(a))
+              ).join(' '),
+              persistent: false,
+              onSuccess: function() {},
+              onFailure: function() {}
+            });
+          } catch (e) {}
+        };
+      });
+    })();
+    """.trimIndent(),
+            webBrowser.url,
+            0
+        )
     }
 }

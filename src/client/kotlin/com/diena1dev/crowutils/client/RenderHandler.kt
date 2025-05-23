@@ -135,7 +135,7 @@ object RenderHandler {
         ) {
             var c = Config
             if (c.webHUDEnabled) {
-                drawBrowser(webBrowser, gameInstance.window.width, gameInstance.window.height, 0, 0, true)
+                //drawBrowser(webBrowser, gameInstance.window.width, gameInstance.window.height, 0, 0, true)
                 drawHUDBrowser(webBrowser, c.webHUDSize, c.webHUDEnabled, c.webHUDZoomed)
             }
             if (c.webHUDEnabled && c.webHUDZoomed) {

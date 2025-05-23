@@ -68,7 +68,7 @@ object WebBrowserHandler {
     fun extractCoords(coords: String): String? {
         val regex = Regex("""(\d+),\s*(\d+).*logPointer""")
         val match = regex.find(coords)
-        return match?.let { "/jump ${it.groupValues[1]} ${it.groupValues[2]}" }
+        return match?.let { "jump ${it.groupValues[1]} ${it.groupValues[2]}" }
     }
 
     fun sendCommand(text: String?) {

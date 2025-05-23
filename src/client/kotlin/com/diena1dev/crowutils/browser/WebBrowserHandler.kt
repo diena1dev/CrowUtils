@@ -4,17 +4,15 @@ import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
 import com.diena1dev.crowutils.client.gameInstance
 import com.diena1dev.crowutils.config.Config
+import net.minecraft.network.listener.ClientPacketListener
 import org.apache.logging.log4j.LogManager
 
-// TODO: On every JECF log message sent, check for logPointer, and if present, forward string to an internal var, for use in inserting into chat.
 
 @Suppress("unused")
 object WebBrowserHandler {
     lateinit var webBrowser: MCEFBrowser
     var c: Config = Config
     val logger = LogManager.getLogger()
-    var JSReaderHackResult: String = "---, ---"
-    var finalCoords: String? = "- -"
 
     fun init() {
         if (!this::webBrowser.isInitialized && MCEF.isInitialized()) {
@@ -65,13 +63,15 @@ object WebBrowserHandler {
 
     fun onJumpClick() { // executes dialog popup for JSReaderHack to pickup
         webBrowser.executeJavaScript("window.alert(document.querySelector(\".coord-control-value\").textContent + \" logPointer\");", webBrowser.url, 100)
-        finalCoords = extractCoords(JSReaderHackResult)
-        logger.info(finalCoords)
     }
 
     fun extractCoords(coords: String): String? {
-        val regex = Regex("""(\d+),\s*(\d+),\s*logPointer""")
+        val regex = Regex("""(\d+),\s*(\d+).*logPointer""")
         val match = regex.find(coords)
-        return match?.let { "${it.groupValues[1]} ${it.groupValues[2]}" }
+        return match?.let { "/jump ${it.groupValues[1]} ${it.groupValues[2]}" }
+    }
+
+    fun sendCommand(text: String?) {
+        gameInstance.networkHandler?.sendCommand(text)
     }
 }

@@ -1,4 +1,4 @@
-package com.diena1dev.crowutils.config
+package com.diena1dev.crowutils.client
 
 import com.diena1dev.crowutils.browser.WebBrowserHandler.extractCoords
 import com.diena1dev.crowutils.browser.WebBrowserHandler.sendCommand

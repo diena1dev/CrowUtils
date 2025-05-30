@@ -3,8 +3,7 @@ package com.diena1dev.crowutils.browser
 import com.cinemamod.mcef.MCEF
 import com.cinemamod.mcef.MCEFBrowser
 import com.diena1dev.crowutils.client.gameInstance
-import com.diena1dev.crowutils.config.Config
-import net.minecraft.network.listener.ClientPacketListener
+import com.diena1dev.crowutils.client.Config
 import org.apache.logging.log4j.LogManager
 
 

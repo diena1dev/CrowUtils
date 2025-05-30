@@ -2,7 +2,6 @@ package com.diena1dev.crowutils.client
 
 import com.cinemamod.mcef.MCEFBrowser
 import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
-import com.diena1dev.crowutils.config.Config
 import com.mojang.blaze3d.systems.RenderSystem
 import net.fabricmc.fabric.api.client.rendering.v1.IdentifiedLayer
 import net.minecraft.client.font.TextRenderer

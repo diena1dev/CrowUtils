@@ -1,9 +1,7 @@
 package com.diena1dev.crowutils.client
 
 import com.diena1dev.crowutils.browser.WebBrowserHandler
-import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
-import com.diena1dev.crowutils.config.Config
-import com.diena1dev.crowutils.screen.BrowserScreen
+import com.diena1dev.crowutils.screens.BrowserScreen
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper

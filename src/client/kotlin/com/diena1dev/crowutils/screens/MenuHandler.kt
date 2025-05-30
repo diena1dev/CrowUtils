@@ -1,10 +1,9 @@
-package com.diena1dev.crowutils.menus
+package com.diena1dev.crowutils.screens
 
 import com.cinemamod.mcef.MCEF
 import com.diena1dev.crowutils.browser.WebBrowserHandler
-import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
+import com.diena1dev.crowutils.client.Config
 import com.diena1dev.crowutils.client.gameInstance
-import com.diena1dev.crowutils.config.Config
 import com.mojang.blaze3d.systems.RenderSystem
 import net.minecraft.client.gl.ShaderProgramKeys
 import net.minecraft.client.gui.DrawContext
@@ -16,7 +15,6 @@ import net.minecraft.client.render.Tessellator
 import net.minecraft.client.render.VertexFormat
 import net.minecraft.client.render.VertexFormats
 import net.minecraft.text.Text
-
 import org.apache.logging.log4j.LogManager
 
 @Suppress("unused")
@@ -27,8 +25,8 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
     override fun init() {
         super.init()
         if (MCEF.isInitialized() && WebBrowserHandler.isBrowserInit()) {
-            webBrowser.resize(width*gameInstance.window.scaleFactor.toInt(), height*gameInstance.window.scaleFactor.toInt())
-            System.out.println(
+            WebBrowserHandler.webBrowser.resize(width* gameInstance.window.scaleFactor.toInt(), height* gameInstance.window.scaleFactor.toInt())
+            println(
                 "'width': $width 'height': $height 'gameInstance.width': ${gameInstance.window.width}" +
                         "'gameInstance.height': ${gameInstance.window.height} gameInstance.scaledWidth: '${gameInstance.window.scaledWidth}' gameInstance.scaledHeight: '${gameInstance.window.scaledHeight}'" +
                         "gameInstance.scaleFactor: '${gameInstance.window.scaleFactor}'"
@@ -47,7 +45,7 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
         super.render(context, mouseX, mouseY, delta)
 
         RenderSystem.setShader(ShaderProgramKeys.POSITION_TEX_COLOR)
-        RenderSystem.setShaderTexture(0, webBrowser.renderer.textureID)
+        RenderSystem.setShaderTexture(0, WebBrowserHandler.webBrowser.renderer.textureID)
 
         val t = Tessellator.getInstance()
         val buffer = t.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR)
@@ -81,26 +79,26 @@ class MenuHandler: Screen(Text.literal("DEBUG")) {
         BufferRenderer.drawWithGlobalProgram(buffer.end())
     }
 
-    fun mouseScaleX(x: Double): Int { return (((x/*(horizontalOffset/2))*/*gameInstance.window.scaleFactor).toInt())) }
-    fun mouseScaleY(y: Double): Int { return ((y)*gameInstance.window.scaleFactor).toInt() }
+    fun mouseScaleX(x: Double): Int { return (((x/*(horizontalOffset/2))*/* gameInstance.window.scaleFactor).toInt())) }
+    fun mouseScaleY(y: Double): Int { return ((y)* gameInstance.window.scaleFactor).toInt() }
 
     override fun mouseClicked(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        webBrowser.sendMousePress(mouseScaleX(mouseX), mouseScaleY(mouseY), button)
+        WebBrowserHandler.webBrowser.sendMousePress(mouseScaleX(mouseX), mouseScaleY(mouseY), button)
         return super.mouseClicked(mouseX, mouseY, button)
     }
 
     override fun mouseReleased(mouseX: Double, mouseY: Double, button: Int): Boolean {
-        webBrowser.sendMouseRelease(mouseScaleX(mouseX), mouseScaleY(mouseY), button)
+        WebBrowserHandler.webBrowser.sendMouseRelease(mouseScaleX(mouseX), mouseScaleY(mouseY), button)
         return super.mouseReleased(mouseX, mouseY, button)
     }
 
     override fun mouseMoved(mouseX: Double, mouseY: Double) {
-        webBrowser.sendMouseMove(mouseScaleX(mouseX), mouseScaleY(mouseY))
+        WebBrowserHandler.webBrowser.sendMouseMove(mouseScaleX(mouseX), mouseScaleY(mouseY))
         super.mouseMoved(mouseX, mouseY)
     }
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, horizontalAmount: Double, verticalAmount: Double): Boolean {
-        webBrowser.sendMouseWheel(mouseScaleX(mouseX), mouseScaleY(mouseY), verticalAmount, horizontalAmount.toInt())
+        WebBrowserHandler.webBrowser.sendMouseWheel(mouseScaleX(mouseX), mouseScaleY(mouseY), verticalAmount, horizontalAmount.toInt())
         return super.mouseScrolled(mouseX, mouseY, horizontalAmount, verticalAmount)
     }
 

@@ -1,17 +1,16 @@
-package com.diena1dev.crowutils.screen
+package com.diena1dev.crowutils.screens
 
 import com.diena1dev.crowutils.browser.WebBrowserHandler
 import com.diena1dev.crowutils.browser.WebBrowserHandler.webBrowser
 import com.diena1dev.crowutils.client.KeybindHandler
 import com.diena1dev.crowutils.client.RenderHandler
 import com.diena1dev.crowutils.client.gameInstance
-import com.diena1dev.crowutils.config.Config
+import com.diena1dev.crowutils.client.Config
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper
 import net.minecraft.client.MinecraftClient
 import net.minecraft.client.gui.DrawContext
 import net.minecraft.client.gui.screen.Screen
 import net.minecraft.text.Text
-import org.cef.misc.CefCursorType
 
 @Suppress("unused")
 class BrowserScreen(gameInstance: MinecraftClient, previousScreen: Text, url: String) : Screen(
